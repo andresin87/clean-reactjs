@@ -1,5 +1,21 @@
-- name: Deploy
-  uses: peaceiris/actions-gh-pages@v3
-  with:
-    github_token: ${{ secrets.GITHUB_TOKEN }}
-    publish_dir: .
+on:
+  push:
+    branches:
+    - master
+jobs:
+  skip:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Cancel Previous Redundant Builds
+      uses: styfle/cancel-workflow-action@0.6.0
+      with:
+        access_token: ${{ github.token }}
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./public
+    
